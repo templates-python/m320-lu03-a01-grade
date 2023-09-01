@@ -1,96 +1,75 @@
+from builtins import int
+
+
 class GradeList:
-    """
-    Eine Liste von Notenwerte.
-    Die Liste ist auf MAX_GRADE_COUNT Elemente begrenzt. Zudem dürfen die
-    Notenwerte nur im Bereich 1.0 ... 6.0 liegen.
-    Beide Zusicherungen werden in der Methode add_grade überprüft.
-    """
     def __init__(self):
-        """
-        Definiert den Range der Liste und erstellt eine leere Liste.
-        """
         self._MAX_GRADE_COUNT = 5
         self._grades = []
 
-    def add_grade(self, grade):
-        """
-        Fügt einen Notenwert der Liste zu.
-        Der Wert muss im Bereich 1.0 ... 6.0 liegen.
-        Es können maximal MAX_GRADE_COUNT Elemente der Liste zugefügt werden.
-        :param grade: ein Notenwert
-        """
+    def add_grade(self, grade: float) -> None:
+        if grade < 1.0 or grade > 6.0:
+            raise GradeRangeError(grade)
         elements = self.get_current_grade_count()
-        if elements < self._MAX_GRADE_COUNT:
-            self._grades.append(grade)
-        else:
-            print('FEHLER: Zu viele Werte eingegeben\n')
+        if elements >= self._MAX_GRADE_COUNT:
+            raise Overflow('Fehler: Zu viele Werte eingegeben\n')
+        self._grades.append(grade)
 
-
-    def get_max_grade_count(self):
-        """
-        Liefert die maximale Grösse der Liste.
-        :return: Grösse der Liste
-        """
+    def get_max_grade_count(self) -> int:
         return self._MAX_GRADE_COUNT
 
-    def get_current_grade_count(self):
-        """
-        Liefert die aktuelle Anzahl der in der Liste abgelegten Notenwerte.
-        :return: Anzahl Notenwerte
-        """
+    def get_current_grade_count(self) -> int:
         return len(self._grades)
 
-    def get_grade(self, index: int):
-        """
-        Liefert den durch index bezeichneten Notenwert aus der Liste.
-        :param index: Position des Notenwertes
-        :return: Notenwert
-        """
+    def get_grade(self, index: int) -> float:
         return self._grades[index]
 
-    def remove_grade(self, index: int):
-        """
-        Entfernt an der Stelle index einen Wert.
-        :param index: Position die entfernt wird
-        """
+    def remove_grade(self, index: int) -> None:
         self._grades.pop(index)
 
-    def print(self):
-        """
-        Gibt alle Notenwert am Stdout aus.
-        """
+    def print(self) -> None:
         r = range(self.get_current_grade_count())
         for i in r:
-            print(f'{i + 1}. Note: {self._grades[i]}')
+            print(f"{i + 1}. Note: {self._grades[i]}")
+
+
+class Overflow(RuntimeError):
+    pass
+
+
+class GradeRangeError(RuntimeError):
+
+    def __init__(self, grade: int):
+        message = f'Fehler: Der Notenwert muss im Bereich 1.0 bis 6.0 liegen. Er beträgt jedoch {grade}.'
+        super().__init__(self, message)
 
 
 if __name__ == '__main__':
     demo = GradeList()
-    demo.add_grade(4.5)
-    demo.add_grade(5.0)
-    demo.add_grade(3.5)
-    demo.add_grade(4.0)
-    demo.add_grade(4.5)
-    demo.print()
-    # und einen nächsten Wert einfügen, der zu einem Overflow führen wird.
-    print("\nund nun einen weiteren Wert zufügen")
-    demo.add_grade(3.5)
+    try:
+        demo.add_grade(4.5)
+        demo.add_grade(5.0)
+        demo.add_grade(3.5)
+        demo.add_grade(4.0)
+        demo.add_grade(0.5)
+        # und einen nächsten Wert einfügen, der zu einem Overflow führen wird.
+        demo.add_grade(3.5)
+    except GradeRangeError as ge:
+        print(ge)
+    except Overflow as of:
+        print(of)
     demo.print()
 
-    print("\nLösche Wert an 2. Stelle")
+    print('\nLösche Wert an 2. Stelle')
     demo.remove_grade(1)  # Index beginnt bei 0
     demo.print()
 
-    #und nun einen Wert zufügen der eine ungültige Note darstellt.
-    print("\nund nun eine ungültige Note zufügen")
-    demo.add_grade(7.0)
-    demo.print()
-
     # und nun einen Wert an einer Stelle lesen, die es nicht gibt
-    print("\nNote an Position 8 lesen ")
-    print(demo.get_grade(8))
+    try:
+        print(f'\n8. Note = {demo.get_grade(8)}')
+    except IndexError:
+        print(f'Falscher Index; gültig sind Werte von 0 bis {demo.get_max_grade_count() - 1}')
 
-    print(f"\nListe umfasst zur Zeit {demo.get_current_grade_count()} Noten")
-    print(f"Note an 3. Stelle ist {demo.get_grade(2)}")
-    print(f"Grösse der Liste beträgt {demo.get_max_grade_count()}\n")
+    print(f'\nListe umfasst zur Zeit {demo.get_current_grade_count()} Noten')
+    print(f'Note an 3. Stelle ist {demo.get_grade(2)}')
+    print(f'Grösse der Liste beträgt {demo.get_max_grade_count()}\n')
     demo.print()
