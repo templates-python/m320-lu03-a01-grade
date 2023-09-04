@@ -5,6 +5,7 @@ class GradeList:
     Notenwerte nur im Bereich 1.0 ... 6.0 liegen.
     Beide Zusicherungen werden in der Methode add_grade überprüft.
     """
+
     def __init__(self):
         """
         Definiert den Range der Liste und erstellt eine leere Liste.
@@ -24,7 +25,6 @@ class GradeList:
             self._grades.append(grade)
         else:
             print('FEHLER: Zu viele Werte eingegeben\n')
-
 
     def get_max_grade_count(self):
         """
@@ -63,8 +63,7 @@ class GradeList:
         for i in r:
             print(f'{i + 1}. Note: {self._grades[i]}')
 
-
-if __name__ == '__main__':
+def main():
     demo = GradeList()
     demo.add_grade(4.5)
     demo.add_grade(5.0)
@@ -81,7 +80,7 @@ if __name__ == '__main__':
     demo.remove_grade(1)  # Index beginnt bei 0
     demo.print()
 
-    #und nun einen Wert zufügen der eine ungültige Note darstellt.
+    # und nun einen Wert zufügen der eine ungültige Note darstellt.
     print("\nund nun eine ungültige Note zufügen")
     demo.add_grade(7.0)
     demo.print()
@@ -94,3 +93,7 @@ if __name__ == '__main__':
     print(f"Note an 3. Stelle ist {demo.get_grade(2)}")
     print(f"Grösse der Liste beträgt {demo.get_max_grade_count()}\n")
     demo.print()
+
+
+if __name__ == '__main__':
+    main()
