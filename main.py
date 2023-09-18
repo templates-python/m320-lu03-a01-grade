@@ -24,7 +24,7 @@ class GradeList:
         if 1.0 <= grade <= 6.0:
             elements = self.current_grade_count
             if elements >= self._MAX_GRADE_COUNT:
-                raise ListRangeException('Fehler: Zu viele Werte eingegeben\n')
+                raise ListRangeException()
             print(f'zufügen von Note mit {grade}' )
             self._grades.append(grade)
         else:
