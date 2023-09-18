@@ -58,32 +58,40 @@ class GradeList:
 
 if __name__ == '__main__':
     demo = GradeList()
+    demo.add_grade(4.5)
+    demo.add_grade(5.0)
+    demo.add_grade(3.5)
+    demo.add_grade(4.0)
+    demo.add_grade(4.5)
+    demo.print()
+    # und einen nächsten Wert einfügen, der zu einem Overflow führen wird.
     try:
-        demo.add_grade(4.5)
-        demo.add_grade(5.0)
-        demo.add_grade(6.0)
-        demo.add_grade(2.5)
-        demo.add_grade(3.5)
-        demo.add_grade(4.5)
-    except ListRangeException as ge:
-        print(ge)
-    try:
-        demo.add_grade(8.0)
-    except ValueRangeException as ve:
-        print(ve)
+       print("\nund nun einen weiteren Wert zufügen")
+       demo.add_grade(3.5)
+    except ListRangeException as lre:
+        print(lre)
     demo.print()
 
-    print('\nLösche Wert an 2. Stelle')
+    print("\nLösche Wert an 2. Stelle")
     demo.remove_grade(1)  # Index beginnt bei 0
     demo.print()
 
-    # und nun einen Wert an einer Stelle lesen, die es nicht gibt
+    # und nun einen Wert zufügen der eine ungültige Note darstellt.
+    print("\nund nun eine ungültige Note zufügen")
     try:
-        print(f'\n8. Note = {demo.take_grade(8)}')
-    except ListIndexException as le:
-        print(le)
+       demo.add_grade(7.0)
+    except ValueRangeException as lre:
+        print(lre)
+    demo.print()
 
-    print(f'\nListe umfasst zur Zeit {demo.current_grade_count} Noten')
-    print(f'Note an 3. Stelle ist {demo.take_grade(2)}')
-    print(f'Grösse der Liste beträgt {demo.max_grade_count}\n')
+    # und nun einen Wert an einer Stelle lesen, die es nicht gibt
+    print("\nNote an Position 8 lesen ")
+    try:
+       print(demo.take_grade(8))
+    except ListIndexException as lie:
+        print(lie)
+
+    print(f"\nListe umfasst zur Zeit {demo.current_grade_count} Noten")
+    print(f"Note an 3. Stelle ist {demo.take_grade(2)}")
+    print(f"Grösse der Liste beträgt {demo.max_grade_count}\n")
     demo.print()
