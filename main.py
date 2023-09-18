@@ -20,27 +20,29 @@ class GradeList:
         Es können maximal MAX_GRADE_COUNT Elemente der Liste zugefügt werden.
         :param grade: ein Notenwert
         """
-        elements = self.get_current_grade_count()
+        elements = self.current_grade_count
         if elements < self._MAX_GRADE_COUNT:
             self._grades.append(grade)
         else:
             print('FEHLER: Zu viele Werte eingegeben\n')
 
-    def get_max_grade_count(self):
+    @property
+    def max_grade_count(self):
         """
         Liefert die maximale Grösse der Liste.
         :return: Grösse der Liste
         """
         return self._MAX_GRADE_COUNT
 
-    def get_current_grade_count(self):
+    @property
+    def current_grade_count(self):
         """
         Liefert die aktuelle Anzahl der in der Liste abgelegten Notenwerte.
         :return: Anzahl Notenwerte
         """
         return len(self._grades)
 
-    def get_grade(self, index: int):
+    def take_grade(self, index: int):
         """
         Liefert den durch index bezeichneten Notenwert aus der Liste.
         :param index: Position des Notenwertes
@@ -59,7 +61,7 @@ class GradeList:
         """
         Gibt alle Notenwert am Stdout aus.
         """
-        r = range(self.get_current_grade_count())
+        r = range(self.current_grade_count)
         for i in r:
             print(f'{i + 1}. Note: {self._grades[i]}')
 
@@ -87,11 +89,11 @@ def main():
 
     # und nun einen Wert an einer Stelle lesen, die es nicht gibt
     print("\nNote an Position 8 lesen ")
-    print(demo.get_grade(8))
+    print(demo.take_grade(8))
 
-    print(f"\nListe umfasst zur Zeit {demo.get_current_grade_count()} Noten")
-    print(f"Note an 3. Stelle ist {demo.get_grade(2)}")
-    print(f"Grösse der Liste beträgt {demo.get_max_grade_count()}\n")
+    print(f"\nListe umfasst zur Zeit {demo.current_grade_count} Noten")
+    print(f"Note an 3. Stelle ist {demo.take_grade(2)}")
+    print(f"Grösse der Liste beträgt {demo.max_grade_count}\n")
     demo.print()
 
 
