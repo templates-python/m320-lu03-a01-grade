@@ -30,7 +30,7 @@ class TestGrade:
         with pytest.raises(ValueRangeException):
             grades.add_grade(6.5)
 
-    def test_numer_too_large(self, grades):
+    def test_number_too_large(self, grades):
         with pytest.raises(ListRangeException):
             for cnt in range(6):
                 grades.add_grade(5.0)

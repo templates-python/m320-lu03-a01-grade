@@ -1,11 +1,12 @@
 from builtins import int
 
 class ListIndexException(Exception):
-    def __init__(self, index):
+    def __init__(self, index: int):
         super().__init__(f'Fehler: Ungültiger Index: {index}')
 
 class ListRangeException(Exception):
-    pass
+    def __init__(self):
+        super().__init__(f'Fehler: Zu viele Werte eingegeben')
 
 
 class ValueRangeException(Exception):
